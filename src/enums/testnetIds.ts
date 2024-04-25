@@ -22,4 +22,5 @@ export const TestnetIds: ChainSlug[] = [
   ChainSlug.REYA_CRONOS,
   ChainSlug.SYNDR_SEPOLIA_L3,
   ChainSlug.POLYNOMIAL_TESTNET,
+  ChainSlug.KINTO_DEVNET,
 ];

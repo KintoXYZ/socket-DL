@@ -98,6 +98,7 @@ if (isProduction) {
       ChainId.POLYNOMIAL_TESTNET
     ),
     [HardhatChainName.KINTO]: getChainConfig(ChainId.KINTO),
+    [HardhatChainName.KINTO_DEVNET]: getChainConfig(ChainId.KINTO_DEVNET),
   };
 }
 
@@ -139,6 +140,7 @@ const config: HardhatUserConfig = {
       reya: process.env.REYA_API_KEY || "",
       syndrSepoliaL3: process.env.SYNDR_API_KEY || "",
       kinto: process.env.KINTO_API_KEY || "",
+      kinto_devnet: process.env.KINTO_DEVNET_API_KEY || "",
     },
     customChains: [
       {
@@ -163,6 +165,14 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://api.basescan.org/api",
           browserURL: "https://basescan.org/",
+        },
+      },
+      {
+        network: "kinto_devnet",
+        chainId: ChainId.KINTO_DEVNET,
+        urls: {
+          apiURL: "https://kinto-erc20-dev.explorer.caldera.xyz/api",
+          browserURL: "https://kinto-erc20-dev.explorer.caldera.xyz",
         },
       },
       {
