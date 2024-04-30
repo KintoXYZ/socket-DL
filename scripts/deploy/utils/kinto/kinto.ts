@@ -314,8 +314,7 @@ const deployWithKintoFactory = async (
 
 // other utils
 
-const isKinto = async (chainId: number): Promise<boolean> =>
-  chainId === KINTO_DATA.chainId;
+const isKinto = (chainId: number): boolean => chainId === KINTO_DATA.chainId;
 
 const handleOps = async (
   userOps: PopulatedTransaction[] | UserOperation[],
