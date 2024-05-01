@@ -1,0 +1,40 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "IDecapacitor",
+  "sourceName": "contracts/interfaces/IDecapacitor.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "root_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "packedMessage_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "proof_",
+          "type": "bytes"
+        }
+      ],
+      "name": "verifyMessageInclusion",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "isIncluded",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

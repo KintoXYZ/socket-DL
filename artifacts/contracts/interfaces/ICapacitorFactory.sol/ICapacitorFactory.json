@@ -1,0 +1,50 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "ICapacitorFactory",
+  "sourceName": "contracts/interfaces/ICapacitorFactory.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "InvalidCapacitorType",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "capacitorType",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxPacketLength",
+          "type": "uint256"
+        }
+      ],
+      "name": "deploy",
+      "outputs": [
+        {
+          "internalType": "contract ICapacitor",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IDecapacitor",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

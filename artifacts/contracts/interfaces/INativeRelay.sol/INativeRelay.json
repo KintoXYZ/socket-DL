@@ -1,0 +1,75 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "INativeRelay",
+  "sourceName": "contracts/interfaces/INativeRelay.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "packetId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxSubmissionCost",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxGas",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "gasPriceBid",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "callValueRefundAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "remoteRefundAddress",
+          "type": "address"
+        }
+      ],
+      "name": "initiateNativeConfirmation",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "packetId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "initiateNativeConfirmation",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "receivePacketProof",
+          "type": "bytes"
+        }
+      ],
+      "name": "receiveMessage",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

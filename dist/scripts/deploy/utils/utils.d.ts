@@ -1,0 +1,32 @@
+import { Wallet } from "ethers";
+import { Contract } from "ethers";
+import { Address } from "hardhat-deploy/dist/types";
+import { ChainSlug, ChainSocketAddresses, DeploymentAddresses, DeploymentMode } from "../../../src";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+export declare const deploymentsPath: string;
+export declare const deployedAddressPath: (mode: DeploymentMode) => string;
+export declare const getRoleHash: (role: string) => string;
+export declare const getChainRoleHash: (role: string, chainSlug: number) => string;
+export interface DeployParams {
+    addresses: ChainSocketAddresses;
+    mode: DeploymentMode;
+    signer: SignerWithAddress | Wallet;
+    currentChainSlug: number;
+}
+export declare const getOrDeploy: (contractName: string, path: string, args: any[], deployUtils: DeployParams) => Promise<Contract>;
+export declare function deployContractWithArgs(contractName: string, args: Array<any>, signer: SignerWithAddress | Wallet): Promise<Contract>;
+export declare const verify: (address: string, contractName: string, path: string, args: any[]) => Promise<boolean>;
+export declare const sleep: (delay: number) => Promise<unknown>;
+export declare const getInstance: (contractName: string, address: Address) => Promise<Contract>;
+export declare const getChainSlug: () => Promise<number>;
+export declare const integrationType: (integrationName: string) => string;
+export declare const storeAddresses: (addresses: ChainSocketAddresses, chainSlug: ChainSlug, mode: DeploymentMode) => Promise<void>;
+export declare const storeAllAddresses: (addresses: DeploymentAddresses, mode: DeploymentMode) => Promise<void>;
+export declare const storeVerificationParams: (verificationDetail: any[], chainSlug: ChainSlug, mode: DeploymentMode) => Promise<void>;
+export declare const getChainSlugsFromDeployedAddresses: (mode?: DeploymentMode) => Promise<string[]>;
+export declare const getRelayUrl: (mode: DeploymentMode) => Promise<string>;
+export declare const getRelayAPIKEY: (mode: DeploymentMode) => string;
+export declare const getAddresses: (chainSlug: ChainSlug, mode?: DeploymentMode) => Promise<ChainSocketAddresses>;
+export declare const createObj: (obj: ChainSocketAddresses, keys: string[], value: any) => ChainSocketAddresses;
+export declare const toLowerCase: (str?: string) => string;
+export declare function getChainSlugFromId(chainId: number): number;

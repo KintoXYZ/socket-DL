@@ -1,0 +1,640 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "SocketConfig",
+  "sourceName": "contracts/socket/SocketConfig.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "InvalidConnection",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "SwitchboardExists",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "msgId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "ExecutionSuccess",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "plug",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "siblingChainSlug",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "siblingPlug",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "inboundSwitchboard",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "outboundSwitchboard",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "capacitor",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "decapacitor",
+          "type": "address"
+        }
+      ],
+      "name": "PlugConnected",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "switchboard",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "siblingChainSlug",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "siblingSwitchboard",
+          "type": "address"
+        }
+      ],
+      "name": "SiblingSwitchboardUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "switchboard",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "siblingChainSlug",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "capacitor",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "decapacitor",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maxPacketLength",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "capacitorType",
+          "type": "uint256"
+        }
+      ],
+      "name": "SwitchboardAdded",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "capacitorFactory__",
+      "outputs": [
+        {
+          "internalType": "contract ICapacitorFactory",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "capacitorToSlug",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "name": "capacitors__",
+      "outputs": [
+        {
+          "internalType": "contract ICapacitor",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "address",
+          "name": "siblingPlug_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "inboundSwitchboard_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "outboundSwitchboard_",
+          "type": "address"
+        }
+      ],
+      "name": "connect",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "name": "decapacitors__",
+      "outputs": [
+        {
+          "internalType": "contract IDecapacitor",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "packetId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "proposalCount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "executionGasLimit",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "decapacitorProof",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "signature",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct ISocket.ExecutionDetails",
+          "name": "executionDetails_",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "msgId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "executionFee",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "minMsgGasLimit",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "executionParams",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes",
+              "name": "payload",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct ISocket.MessageDetails",
+          "name": "messageDetails_",
+          "type": "tuple"
+        }
+      ],
+      "name": "execute",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "executionManager__",
+      "outputs": [
+        {
+          "internalType": "contract IExecutionManager",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "minMsgGasLimit_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "payloadSize_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "executionParams_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "transmissionParams_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "remoteChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "address",
+          "name": "plug_",
+          "type": "address"
+        }
+      ],
+      "name": "getMinFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "totalFees",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "plugAddress_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug_",
+          "type": "uint32"
+        }
+      ],
+      "name": "getPlugConfig",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "siblingPlug",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "inboundSwitchboard__",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "outboundSwitchboard__",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "capacitor__",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "decapacitor__",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "remoteChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "minMsgGasLimit_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "executionParams_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "transmissionParams_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "payload_",
+          "type": "bytes"
+        }
+      ],
+      "name": "outbound",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "msgId",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "packetId_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "proposalCount_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "switchboard_",
+          "type": "address"
+        }
+      ],
+      "name": "packetIdRoots",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "packetId_",
+          "type": "bytes32"
+        }
+      ],
+      "name": "proposalCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "packetId_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "root_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "switchboard_",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "signature_",
+          "type": "bytes"
+        }
+      ],
+      "name": "proposeForSwitchboard",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxPacketLength_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "capacitorType_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "siblingSwitchboard_",
+          "type": "address"
+        }
+      ],
+      "name": "registerSwitchboardForSibling",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "capacitor",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "decapacitor",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "batchSize_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "capacitorAddress_",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "signature_",
+          "type": "bytes"
+        }
+      ],
+      "name": "seal",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "transmitManager__",
+      "outputs": [
+        {
+          "internalType": "contract ITransmitManager",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "address",
+          "name": "siblingSwitchboard_",
+          "type": "address"
+        }
+      ],
+      "name": "useSiblingSwitchboard",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

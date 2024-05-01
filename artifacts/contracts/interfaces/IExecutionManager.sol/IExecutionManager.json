@@ -1,0 +1,404 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "IExecutionManager",
+  "sourceName": "contracts/interfaces/IExecutionManager.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "minMsgGasLimit_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "payloadSize_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "executionParams_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "transmissionParams_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "address",
+          "name": "transmitManager_",
+          "type": "address"
+        }
+      ],
+      "name": "getExecutionTransmissionMinFees",
+      "outputs": [
+        {
+          "internalType": "uint128",
+          "name": "",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint128",
+          "name": "",
+          "type": "uint128"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "minMsgGasLimit_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "payloadSize_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "executionParams_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug_",
+          "type": "uint32"
+        }
+      ],
+      "name": "getMinFees",
+      "outputs": [
+        {
+          "internalType": "uint128",
+          "name": "",
+          "type": "uint128"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "packedMessage",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "sig",
+          "type": "bytes"
+        }
+      ],
+      "name": "isExecutor",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "minMsgGasLimit_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "payloadSize_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "executionParams_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "transmissionParams_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint128",
+          "name": "switchboardFees_",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint128",
+          "name": "verificationOverheadFees_",
+          "type": "uint128"
+        },
+        {
+          "internalType": "address",
+          "name": "transmitManager_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "switchboard_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxPacketLength_",
+          "type": "uint256"
+        }
+      ],
+      "name": "payAndCheckFees",
+      "outputs": [
+        {
+          "internalType": "uint128",
+          "name": "",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint128",
+          "name": "",
+          "type": "uint128"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "nonce_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint128",
+          "name": "executionFees_",
+          "type": "uint128"
+        },
+        {
+          "internalType": "bytes",
+          "name": "signature_",
+          "type": "bytes"
+        }
+      ],
+      "name": "setExecutionFees",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "nonce_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "msgValueMaxThreshold_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "signature_",
+          "type": "bytes"
+        }
+      ],
+      "name": "setMsgValueMaxThreshold",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "nonce_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "msgValueMinThreshold_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "signature_",
+          "type": "bytes"
+        }
+      ],
+      "name": "setMsgValueMinThreshold",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "nonce_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "relativeNativeTokenPrice_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "signature_",
+          "type": "bytes"
+        }
+      ],
+      "name": "setRelativeNativeTokenPrice",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "remoteChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint128",
+          "name": "transmitMinFees_",
+          "type": "uint128"
+        }
+      ],
+      "name": "setTransmissionMinFees",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "executor",
+          "type": "address"
+        },
+        {
+          "internalType": "uint128",
+          "name": "executionFees",
+          "type": "uint128"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "msgId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "updateExecutionFees",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "executionParams_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "msgValue_",
+          "type": "uint256"
+        }
+      ],
+      "name": "verifyParams",
+      "outputs": [],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "address",
+          "name": "switchboard_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint128",
+          "name": "amount_",
+          "type": "uint128"
+        }
+      ],
+      "name": "withdrawSwitchboardFees",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "siblingChainSlug_",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint128",
+          "name": "amount_",
+          "type": "uint128"
+        }
+      ],
+      "name": "withdrawTransmissionFees",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

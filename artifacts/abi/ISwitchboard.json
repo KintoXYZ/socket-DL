@@ -1,0 +1,162 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "root",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "packetId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "proposalCount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint32",
+        "name": "srcChainSlug",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "proposeTime",
+        "type": "uint256"
+      }
+    ],
+    "name": "allowPacket",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "dstChainSlug",
+        "type": "uint32"
+      }
+    ],
+    "name": "getMinFees",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "switchboardFee",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "verificationOverheadFees",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "siblingChainSlug_",
+        "type": "uint32"
+      }
+    ],
+    "name": "receiveFees",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "siblingChainSlug_",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxPacketLength_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "capacitorType_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "initialPacketCount_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "siblingSwitchboard_",
+        "type": "address"
+      }
+    ],
+    "name": "registerSiblingSlug",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "nonce_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint32",
+        "name": "dstChainSlug_",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint128",
+        "name": "switchboardFees_",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "verificationOverheadFees_",
+        "type": "uint128"
+      },
+      {
+        "internalType": "bytes",
+        "name": "signature_",
+        "type": "bytes"
+      }
+    ],
+    "name": "setFees",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "siblingChainSlug_",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "siblingSwitchboard_",
+        "type": "address"
+      }
+    ],
+    "name": "updateSibling",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

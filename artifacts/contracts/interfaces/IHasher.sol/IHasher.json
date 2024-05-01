@@ -1,0 +1,77 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "IHasher",
+  "sourceName": "contracts/interfaces/IHasher.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "srcChainSlug",
+          "type": "uint32"
+        },
+        {
+          "internalType": "address",
+          "name": "srcPlug",
+          "type": "address"
+        },
+        {
+          "internalType": "uint32",
+          "name": "dstChainSlug",
+          "type": "uint32"
+        },
+        {
+          "internalType": "address",
+          "name": "dstPlug",
+          "type": "address"
+        },
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "msgId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "executionFee",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "minMsgGasLimit",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "executionParams",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes",
+              "name": "payload",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct ISocket.MessageDetails",
+          "name": "messageDetails",
+          "type": "tuple"
+        }
+      ],
+      "name": "packMessage",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

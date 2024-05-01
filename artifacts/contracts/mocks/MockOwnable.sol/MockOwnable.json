@@ -1,0 +1,118 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "MockOwnable",
+  "sourceName": "contracts/mocks/MockOwnable.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "OnlyNominee",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OnlyOwner",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "claimer",
+          "type": "address"
+        }
+      ],
+      "name": "OwnerClaimed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "nominee",
+          "type": "address"
+        }
+      ],
+      "name": "OwnerNominated",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "claimOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "nominee_",
+          "type": "address"
+        }
+      ],
+      "name": "nominateOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nominee",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ownerFunction",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "publicFunction",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b5060405161042738038061042783398101604081905261002f91610093565b8061003981610040565b50506100c3565b600080546001600160a01b0383166001600160a01b0319918216811783556001805490921690915560405190917ffbe19c9b601f5ee90b44c7390f3fa2319eba01762d34ee372aeafd59b25c7f8791a250565b6000602082840312156100a557600080fd5b81516001600160a01b03811681146100bc57600080fd5b9392505050565b610355806100d26000396000f3fe608060405234801561001057600080fd5b50600436106100725760003560e01c80637b5d520b116100505780637b5d520b146100c25780638da5cb5b146100d7578063bd9de99b146100f557600080fd5b806320f99c0a146100775780633bd1adec146100ba5780635b94db27146100c4575b600080fd5b60015473ffffffffffffffffffffffffffffffffffffffff165b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b6100c26100fd565b005b6100c26100d23660046102e2565b610159565b60005473ffffffffffffffffffffffffffffffffffffffff16610091565b6100c2610219565b60015473ffffffffffffffffffffffffffffffffffffffff16331461014e576040517f7c91ccdd00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b6101573361026a565b565b60005473ffffffffffffffffffffffffffffffffffffffff1633146101aa576040517f5fc483c500000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b600180547fffffffffffffffffffffffff00000000000000000000000000000000000000001673ffffffffffffffffffffffffffffffffffffffff83169081179091556040517f906a1c6bd7e3091ea86693dd029a831c19049ce77f1dce2ce0bab1cacbabce2290600090a250565b60005473ffffffffffffffffffffffffffffffffffffffff163314610157576040517f5fc483c500000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b6000805473ffffffffffffffffffffffffffffffffffffffff83167fffffffffffffffffffffffff0000000000000000000000000000000000000000918216811783556001805490921690915560405190917ffbe19c9b601f5ee90b44c7390f3fa2319eba01762d34ee372aeafd59b25c7f8791a250565b6000602082840312156102f457600080fd5b813573ffffffffffffffffffffffffffffffffffffffff8116811461031857600080fd5b939250505056fea26469706673582212209a9328596e9a77cd4763b1d70c3213ffec5399e0c8a33afe0581ba02333b1d5b64736f6c63430008130033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100725760003560e01c80637b5d520b116100505780637b5d520b146100c25780638da5cb5b146100d7578063bd9de99b146100f557600080fd5b806320f99c0a146100775780633bd1adec146100ba5780635b94db27146100c4575b600080fd5b60015473ffffffffffffffffffffffffffffffffffffffff165b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b6100c26100fd565b005b6100c26100d23660046102e2565b610159565b60005473ffffffffffffffffffffffffffffffffffffffff16610091565b6100c2610219565b60015473ffffffffffffffffffffffffffffffffffffffff16331461014e576040517f7c91ccdd00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b6101573361026a565b565b60005473ffffffffffffffffffffffffffffffffffffffff1633146101aa576040517f5fc483c500000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b600180547fffffffffffffffffffffffff00000000000000000000000000000000000000001673ffffffffffffffffffffffffffffffffffffffff83169081179091556040517f906a1c6bd7e3091ea86693dd029a831c19049ce77f1dce2ce0bab1cacbabce2290600090a250565b60005473ffffffffffffffffffffffffffffffffffffffff163314610157576040517f5fc483c500000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b6000805473ffffffffffffffffffffffffffffffffffffffff83167fffffffffffffffffffffffff0000000000000000000000000000000000000000918216811783556001805490921690915560405190917ffbe19c9b601f5ee90b44c7390f3fa2319eba01762d34ee372aeafd59b25c7f8791a250565b6000602082840312156102f457600080fd5b813573ffffffffffffffffffffffffffffffffffffffff8116811461031857600080fd5b939250505056fea26469706673582212209a9328596e9a77cd4763b1d70c3213ffec5399e0c8a33afe0581ba02333b1d5b64736f6c63430008130033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
