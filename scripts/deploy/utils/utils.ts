@@ -95,7 +95,6 @@ export async function deployContractWithArgs(
         ...overrides(await signer.getChainId()),
       });
     }
-    await contract.deployed();
     return contract;
   } catch (error) {
     throw error;

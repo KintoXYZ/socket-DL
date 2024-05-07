@@ -16,6 +16,7 @@ export default async function registerSwitchboardForSibling(
   integrationType: string,
   config: ChainSocketAddresses
 ) {
+  console.log("\nRegistering Switchboard For Sibling", remoteChainSlug)
   try {
     const socket = (await getInstance("Socket", config["Socket"])).connect(
       signer
@@ -64,7 +65,13 @@ export default async function registerSwitchboardForSibling(
       switchBoardAddress,
       remoteChainSlug
     );
+    console.log("\n- Switchboard", switchBoardAddress);
+    console.log("- Remote Chain Slug", remoteChainSlug);
+    console.log("- Capacitor", capacitor);
+    console.log("- Decapacitor", decapacitor);
 
+    // fast switchboard 0x199fa5b707ac410dc43035e20447e17d027684ef sepolia
+    // remoteChainSlug 412346
     config = setCapacitorPair(
       config,
       remoteChainSlug,

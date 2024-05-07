@@ -76,9 +76,10 @@ export const filterSiblingChains: number[] = [
   // ChainSlug.BASE,
   // ChainSlug.MAINNET,
   // ChainSlug.OPTIMISM,
-  ChainSlug.GOERLI,
+  // ChainSlug.GOERLI,
   ChainSlug.ARBITRUM_SEPOLIA,
-  ChainSlug.OPTIMISM_SEPOLIA,
+  // ChainSlug.KINTO_DEVNET,
+  // ChainSlug.OPTIMISM_SEPOLIA,
 ];
 export const capacitorType = 1;
 export const maxPacketLength = 1;

@@ -64,6 +64,7 @@ const deployOnKinto = async (
   args: Array<string>,
   signer: SignerWithAddress | Wallet
 ): Promise<Contract> => {
+  const dryRun = process.env.DRY_RUN === "true";
   let contractAddr: Address;
   const argTypes = await extractArgTypes(contractName);
 
@@ -86,10 +87,14 @@ const deployOnKinto = async (
   }
 
   // whitelist contract on Socket's kinto wallet
-  await whitelistApp(contractAddr, signer);
-  return (await ethers.getContractFactory(contractName))
-    .attach(contractAddr)
-    .connect(signer);
+  if (!dryRun) {
+    await whitelistApp(contractAddr, signer);
+    return (await ethers.getContractFactory(contractName))
+      .attach(contractAddr)
+      .connect(signer);
+  } else {
+    return new Contract(contractAddr, [], signer);
+  }
 };
 
 const getOrDeployDeployer = async (signer: SignerWithAddress | Wallet) => {
@@ -115,6 +120,7 @@ const deployWithDeployer = async (
   args: Array<any>,
   signer: SignerWithAddress | Wallet
 ): Promise<Address> => {
+  const dryRun = process.env.DRY_RUN === "true";
   const chainId = await signer.getChainId();
   const { contracts: kinto, userOpGasParams } = KINTO_DATA;
   const deployer = await getOrDeployDeployer(signer);
@@ -187,7 +193,7 @@ const deployWithDeployer = async (
     keccak256(contractBytecodeWithConstructor)
   );
 
-  if (await needsNomination(contractName)) {
+  if (!dryRun && await needsNomination(contractName)) {
     console.log(
       `- ${name} contract will nominate ${kintoWallet.address} for ownership`
     );
@@ -261,16 +267,18 @@ const deployWithDeployer = async (
   // if (paymasterBalance.lt(ethMaxCost)) throw new Error(`Paymaster balance ${paymasterBalance} is less than the required ETH max cost ${ethMaxCost.toString()}`);
 
   // submit user operation to the EntryPoint
-  await handleOps(userOps, signer);
+  if (!dryRun) await handleOps(userOps, signer);
 
   console.log(`- ${name} contract deployed @ ${contractAddr}`);
-  try {
-    const owner = await (
-      await getInstance(contractName, contractAddr, signer)
-    ).owner();
-    console.log(`- ${name} contract owner is ${owner}`);
-  } catch (error) {
-    console.error("Error getting owner:", error);
+  if (!dryRun) {
+    try {
+      const owner = await (
+        await getInstance(contractName, contractAddr, signer)
+      ).owner();
+      console.log(`- ${name} contract owner is ${owner}`);
+    } catch (error) {
+      console.error("Error getting owner:", error);
+    }
   }
   return contractAddr;
 };
@@ -581,4 +589,4 @@ const getInstance = async (
     .attach(address)
     .connect(signer);
 
-export { isKinto, handleOps, deployOnKinto, whitelistApp, estimateGas };
+export { isKinto, handleOps, deployOnKinto, whitelistApp, estimateGas, extractArgTypes };

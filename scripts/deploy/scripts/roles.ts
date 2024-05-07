@@ -136,7 +136,7 @@ const executeRoleTransactions = async (
     });
 
     if (!roles.length) continue;
-    console.log(chainSlug, contracts[0], roles.length);
+    console.log(chainSlug, contracts[0], roles.length, `type: ${newRoleStatus ? "GRANT" : "REVOKE"}`);
     let data: string;
     if (newRoleStatus) {
       data = getRoleTxnData(roles, slugs, addresses, "GRANT");

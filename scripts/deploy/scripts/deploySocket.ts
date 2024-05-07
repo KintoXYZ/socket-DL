@@ -17,7 +17,9 @@ import deploySwitchboards from "./deploySwitchboard";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { socketOwner, executionManagerVersion, overrides } from "../config";
 import { maxAllowedPacketLength } from "../../constants";
-import { handleOps, isKinto } from "../utils/kinto/kinto";
+import { extractArgTypes, handleOps, isKinto } from "../utils/kinto/kinto";
+import { BytesLike, defaultAbiCoder, getCreate2Address, keccak256 } from "ethers/lib/utils";
+import { ethers } from "hardhat";
 
 let allDeployed = false;
 
@@ -35,6 +37,8 @@ export const deploySocket = async (
   currentMode: DeploymentMode,
   deployedAddresses: ChainSocketAddresses
 ): Promise<ReturnObj> => {
+  const dryRun = process.env.DRY_RUN === "true";
+  if (dryRun) console.log("\n***** Dry run mode enabled *****");
   console.log("\nDeploying socket contracts on chain", chainSlug);
   const deployUtils: DeployParams = {
     addresses: deployedAddresses,
@@ -171,39 +175,60 @@ export const deploySocket = async (
       switchboardSimulator.address;
 
     // setup
-    const simulatorContract = (
-      await getInstance("SocketSimulator", socketSimulator.address)
-    ).connect(deployUtils.signer);
-    let capacitor = await simulatorContract.capacitor();
-    if (capacitor == constants.AddressZero) {
-      let tx: TransactionReceipt;
-      let txRequest = await simulatorContract.populateTransaction.setup(
-        counter.address,
-        switchboardSimulator.address,
-        simulatorUtils.address,
-        {
-          ...overrides(chainSlug),
+    if (!dryRun) {
+      const simulatorContract = (
+        await getInstance("SocketSimulator", socketSimulator.address)
+      ).connect(deployUtils.signer);
+      let capacitor = await simulatorContract.capacitor();
+      if (capacitor == constants.AddressZero) {
+        let tx: TransactionReceipt;
+        let txRequest = await simulatorContract.populateTransaction.setup(
+          counter.address,
+          switchboardSimulator.address,
+          simulatorUtils.address,
+          {
+            ...overrides(chainSlug),
+          }
+        );
+        if (isKinto(chainSlug)) {
+          tx = await handleOps([txRequest], simulatorContract.signer);
+        } else {
+          tx = await (
+            await simulatorContract.signer.sendTransaction(txRequest)
+          ).wait();
         }
-      );
-      if (isKinto(chainSlug)) {
-        tx = await handleOps([txRequest], simulatorContract.signer);
-      } else {
-        tx = await (
-          await simulatorContract.signer.sendTransaction(txRequest)
-        ).wait();
+        deployUtils.addresses["CapacitorSimulator"] =
+          await simulatorContract.capacitor();          
+        console.log(tx.transactionHash, "setup for simulator");
       }
-      console.log(tx.transactionHash, "setup for simulator");
-    }
+      
+      deployUtils.addresses.startBlock = deployUtils.addresses.startBlock
+        ? deployUtils.addresses.startBlock
+        : await socketSigner.provider?.getBlockNumber();
+    } else {
+      const simulatorContract = (
+        await getInstance("SocketSimulator", socketSimulator.address)
+      ).connect(deployUtils.signer);
+      const argTypes = await extractArgTypes("SingleCapacitor");
+      const args = [socketSimulator.address, socketOwner];
+      const encodedArgs = defaultAbiCoder.encode(argTypes, args);
+      const bytecode = (await ethers.getContractFactory("SingleCapacitor")).bytecode;
+      const bytecodeWithConstructor = bytecode + encodedArgs.substring(2); //remove the '0x' prefix
+      const salt: BytesLike = ethers.utils.hexZeroPad('0x', 32); // or use random -> randomBytes(32);
 
-    deployUtils.addresses["CapacitorSimulator"] =
-      await simulatorContract.capacitor();
-    deployUtils.addresses.startBlock = deployUtils.addresses.startBlock
-      ? deployUtils.addresses.startBlock
-      : await socketSigner.provider?.getBlockNumber();
+      // deploy contract using Kinto's factory
+      const create2Address = getCreate2Address(
+        simulatorContract.address,
+        salt,
+        keccak256(bytecodeWithConstructor)
+      );
+      deployUtils.addresses["CapacitorSimulator"] = create2Address;
+    }
 
     allDeployed = true;
     console.log(deployUtils.addresses);
     console.log("Contracts deployed!");
+    
   } catch (error) {
     console.log("Error in deploying setup contracts", error);
   }
