@@ -16,6 +16,7 @@ import {
   hexlify,
   id,
   getCreate2Address,
+  BytesLike,
 } from "ethers/lib/utils";
 import {
   TransactionResponse,
@@ -151,7 +152,7 @@ const deployWithDeployer = async (
     contractBytecode + encodedArgs.substring(2); // remove the '0x' prefix
 
   // encode the deployer `deploy` call
-  const salt = randomBytes(32);
+  const salt: BytesLike = ethers.utils.hexZeroPad('0x', 32); // or use random -> randomBytes(32);
   const deployerInterface = new Interface(kinto.deployer.abi);
   const deployCalldata = deployerInterface.encodeFunctionData("deploy", [
     kintoWallet.address,
@@ -292,7 +293,7 @@ const deployWithKintoFactory = async (
   const encodedArgs = defaultAbiCoder.encode(argTypes, args);
   const bytecode = (await ethers.getContractFactory(contractName)).bytecode;
   const bytecodeWithConstructor = bytecode + encodedArgs.substring(2); //remove the '0x' prefix
-  const salt = randomBytes(32);
+  const salt: BytesLike = ethers.utils.hexZeroPad('0x', 32); // or use random -> randomBytes(32);
 
   // deploy contract using Kinto's factory
   const create2Address = getCreate2Address(
