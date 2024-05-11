@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { ethers } from "hardhat";
+import { artifacts, ethers } from "hardhat";
 import {
   Wallet,
   Contract,
@@ -152,7 +152,7 @@ const deployWithDeployer = async (
     contractBytecode + encodedArgs.substring(2); // remove the '0x' prefix
 
   // encode the deployer `deploy` call
-  const salt: BytesLike = ethers.utils.hexZeroPad('0x', 32); // or use random -> randomBytes(32);
+  const salt: BytesLike = randomBytes(32); // or use fixed ethers.utils.hexZeroPad("0x", 32);
   const deployerInterface = new Interface(kinto.deployer.abi);
   const deployCalldata = deployerInterface.encodeFunctionData("deploy", [
     kintoWallet.address,
@@ -265,9 +265,9 @@ const deployWithDeployer = async (
 
   console.log(`- ${name} contract deployed @ ${contractAddr}`);
   try {
-    const owner = await (
-      await getInstance(contractName, contractAddr, signer)
-    ).owner();
+    const owner = await (await getInstance(contractName, contractAddr))
+      .connect(signer)
+      .owner();
     console.log(`- ${name} contract owner is ${owner}`);
   } catch (error) {
     console.error("Error getting owner:", error);
@@ -293,7 +293,7 @@ const deployWithKintoFactory = async (
   const encodedArgs = defaultAbiCoder.encode(argTypes, args);
   const bytecode = (await ethers.getContractFactory(contractName)).bytecode;
   const bytecodeWithConstructor = bytecode + encodedArgs.substring(2); //remove the '0x' prefix
-  const salt: BytesLike = ethers.utils.hexZeroPad('0x', 32); // or use random -> randomBytes(32);
+  const salt: BytesLike = randomBytes(32); // or use fixed ethers.utils.hexZeroPad("0x", 32);
 
   // deploy contract using Kinto's factory
   const create2Address = getCreate2Address(
@@ -366,10 +366,18 @@ const handleOps = async (
     userOps = ops;
   }
 
+  gasParams = {
+    maxPriorityFeePerGas: parseUnits("1.1", "gwei"),
+    maxFeePerGas: parseUnits("1.1", "gwei"),
+    gasLimit: BigNumber.from("400000000"),
+  };
   const txResponse: TransactionResponse = await entryPoint.handleOps(
     userOps,
     await signer.getAddress(),
-    gasParams
+    {
+      gasParams,
+      type: 1, // non EIP-1559
+    }
   );
   const receipt: TransactionReceipt = await txResponse.wait();
   if (hasErrors(receipt))
@@ -572,13 +580,21 @@ const estimateGas = async (
   return gasParams;
 };
 
-const getInstance = async (
+export const getInstance = async (
   contractName: string,
-  address: Address,
-  signer: SignerWithAddress | Wallet
-): Promise<Contract> =>
-  (await ethers.getContractFactory(contractName))
-    .attach(address)
-    .connect(signer);
+  address: Address
+): Promise<Contract> => {
+  const artifact = await artifacts.readArtifact(contractName);
+  return new ethers.Contract(address, artifact.abi);
+};
+
+// const getInstance = async (
+//   contractName: string,
+//   address: Address,
+//   signer: SignerWithAddress | Wallet
+// ): Promise<Contract> =>
+//   (await ethers.getContractFactory(contractName))
+//     .attach(address)
+//     .connect(signer);
 
 export { isKinto, handleOps, deployOnKinto, whitelistApp, estimateGas };
