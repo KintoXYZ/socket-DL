@@ -33,7 +33,9 @@ export const chains: Array<ChainSlug> = [
   // ChainSlug.GOERLI,
   // ChainSlug.ARBITRUM_SEPOLIA,
   // ChainSlug.OPTIMISM_SEPOLIA,
-  ChainSlug.KINTO,
+  // ChainSlug.KINTO,
+  ChainSlug.KINTO_DEVNET,
+  // ChainSlug.HARDHAT,
   // ChainSlug.POLYGON_MUMBAI,
   // ChainSlug.SX_NETWORK_TESTNET,
   // ChainSlug.SX_NETWORK,
@@ -71,10 +73,14 @@ export const sendTransaction = true;
 export const newRoleStatus = true;
 export const filterChains: number[] = chains;
 export const filterSiblingChains: number[] = [
-  ChainSlug.ARBITRUM,
-  ChainSlug.BASE,
-  ChainSlug.MAINNET,
-  ChainSlug.OPTIMISM,
+  // ChainSlug.ARBITRUM,
+  // ChainSlug.BASE,
+  // ChainSlug.MAINNET,
+  // ChainSlug.OPTIMISM,
+  // ChainSlug.GOERLI,
+  ChainSlug.ARBITRUM_SEPOLIA,
+  // ChainSlug.KINTO_DEVNET,
+  // ChainSlug.OPTIMISM_SEPOLIA,
 ];
 export const capacitorType = 1;
 export const maxPacketLength = 1;
@@ -275,6 +281,12 @@ export const overrides = (
       gasPrice,
     };
   } else if (chain == ChainSlug.KINTO) {
+    return {
+      type,
+      gasLimit: 4_000_000,
+      gasPrice,
+    };
+  } else if (chain == ChainSlug.KINTO_DEVNET) {
     return {
       type,
       gasLimit: 4_000_000,
