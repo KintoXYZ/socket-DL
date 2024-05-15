@@ -233,9 +233,8 @@ contract SocketBatcherTest is Setup {
         vm.prank(batcher__.owner());
         batcher__.grantRole(SOCKET_RELAYER_ROLE, fundingRelayer);
 
-        // // add receiver to the allowlist
-        // vm.prank(batcher__.owner());
-        // batcher__.updateAllowlist(receiver, true);
+        // makse sure receiver is not in the allowlist
+        assertEq(batcher__.allowlist(receiver), false);
 
         // try sending funds to receiver
         address payable[] memory addresses = new address payable[](1);
@@ -243,7 +242,7 @@ contract SocketBatcherTest is Setup {
         uint256[] memory amounts = new uint256[](1);
         amounts[0] = 0.1 ether;
 
-        vm.expectRevert("Address not whitelisted");
+        vm.expectRevert(abi.encodeWithSelector(SocketBatcher.AddressNotAllowed.selector, receiver));
         vm.prank(fundingRelayer);
         batcher__.withdrawals{value: 0.1 ether}(addresses, amounts);    
     }

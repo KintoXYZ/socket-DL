@@ -158,6 +158,8 @@ contract SocketBatcher is AccessControl {
     event FailedLog(string reason);
     event AllowlistUpdated(address indexed newAllowlist, bool indexed value);
 
+    error AddressNotAllowed(address address_);
+    
     /**
      * @notice sets fees in batch for switchboards
      * @param contractAddress_ address of contract to set fees
@@ -620,7 +622,7 @@ contract SocketBatcher is AccessControl {
     ) public payable onlyRole(SOCKET_RELAYER_ROLE) {
         uint256 totalAmount;
         for (uint i; i < addresses.length; i++) {
-            require(allowlist[addresses[i]], "Address not whitelisted");
+            if (!allowlist[addresses[i]]) revert AddressNotAllowed(addresses[i]);
             totalAmount += amounts[i];
             addresses[i].transfer(amounts[i]);
         }
