@@ -24,7 +24,7 @@ declare const deployOnKinto: (contractName: string, args: Array<string>, signer:
 declare const isKinto: (chainId: number) => boolean;
 declare const handleOps: (userOps: PopulatedTransaction[] | UserOperation[], signer: Signer | Wallet, gasParams?: GasParams, withPaymaster?: boolean) => Promise<TransactionReceipt>;
 declare const whitelistApp: (app: Address, signer: SignerWithAddress | Wallet) => Promise<TransactionReceipt>;
-declare const setFunderWhitelist: (funders: Address[], isWhitelisted: boolean[]) => Promise<TransactionReceipt>;
+declare const setFunderWhitelist: (funders: Address[], isWhitelisted: boolean[], signer: SignerWithAddress | Wallet) => Promise<TransactionReceipt>;
 declare const estimateGas: (signer: Signer, entryPoint: Contract, userOps: UserOperation[]) => Promise<GasParams>;
 export declare const getInstance: (contractName: string, address: Address) => Promise<Contract>;
 export { isKinto, setFunderWhitelist, handleOps, deployOnKinto, whitelistApp, estimateGas, };

@@ -205,12 +205,21 @@ const whitelistApp = async (app, signer) => {
     }
 };
 exports.whitelistApp = whitelistApp;
-const setFunderWhitelist = async (funders, isWhitelisted) => {
+const setFunderWhitelist = async (funders, isWhitelisted, signer) => {
     const { contracts: kinto } = constants_json_1.KINTO_DATA;
-    const kintoWallet = new hardhat_1.ethers.Contract(process.env.SOCKET_OWNER_ADDRESS, kinto.kintoWallet.abi, hardhat_1.ethers.provider);
+    const kintoWallet = new hardhat_1.ethers.Contract(process.env.SOCKET_OWNER_ADDRESS, kinto.kintoWallet.abi, signer);
+    // for each funder, check which ones are not whitelistd (isFunderWhitelisted)
+    // and add them to an array to be passed to setFunderWhitelist
+    for (let i = 0; i < funders.length; i++) {
+        if ((await kintoWallet.isFunderWhitelisted(funders[i])) === isWhitelisted[i]) {
+            console.log(`- Funder ${funders[i]} is already ${isWhitelisted[i] ? "whitelisted" : "blacklisted"}`);
+            funders.splice(i, 1);
+            isWhitelisted.splice(i, 1);
+        }
+    }
     // "function setFunderWhitelist(address[] calldata newWhitelist, bool[] calldata flags)",
     const txRequest = await kintoWallet.populateTransaction.setFunderWhitelist(funders, isWhitelisted);
-    const tx = await handleOps([txRequest], hardhat_1.ethers.provider.getSigner());
+    const tx = await handleOps([txRequest], signer);
     console.log(`- Funders whitelist succesfully updated`);
     return tx;
 };
