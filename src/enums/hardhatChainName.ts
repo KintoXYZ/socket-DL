@@ -38,4 +38,5 @@ export enum HardhatChainName {
   SYNDR_SEPOLIA_L3 = "syndr_sepolia_l3",
   POLYNOMIAL_TESTNET = "polynomial_testnet",
   KINTO = "kinto",
+  KINTO_DEVNET = "kinto_devnet",
 }
