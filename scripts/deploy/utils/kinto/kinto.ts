@@ -341,7 +341,7 @@ const handleOps = async (
   kintoWalletAddr: Address,
   userOps: PopulatedTransaction[] | UserOperation[],
   privateKeys: string[],
-  value: BigNumber = BigNumber.from("0"),
+  values: BigNumber[] = [],
   gasParams: GasParams = {},
   withPaymaster = false
 ): Promise<TransactionReceipt> => {
@@ -373,7 +373,7 @@ const handleOps = async (
     for (let i = 0; i < userOps.length; i++) {
       const calldata = kintoWalletInterface.encodeFunctionData("execute", [
         userOps[i].to,
-        value,
+        values.length > 0 ? ethers.utils.hexlify(values[i]) : ethers.utils.hexlify(0),
         userOps[i].data,
       ]);
       ops[i] = await createUserOp(

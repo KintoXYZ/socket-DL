@@ -103,7 +103,7 @@ class TrezorSigner extends Signer {
         } else {
           // no devices connected, waiting for connection
           console.log(
-            "\nATTENTION: No devices connected. Waiting Trezor to be connected..."
+            "\nATTENTION: No devices connected. Open Trezor Suite, connect your device and unlock your account."
           );
         }
       }

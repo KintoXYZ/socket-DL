@@ -92,11 +92,13 @@ const signUserOp = async (
     if (privateKey == TREZOR || privateKey == LEDGER) {
       // sign with hardware wallet if available
       const hwSignature = await signWithHw(hash, privateKey);
+      console.log("HW Signature:", hwSignature);
       signature += (hwSignature as string).slice(2);
+    } else {
+      const signingKey = new SigningKey(privateKey);
+      const sig = signingKey.signDigest(ethSignedHash);
+      signature += joinSignature(sig).slice(2); // remove initial '0x'
     }
-    const signingKey = new SigningKey(privateKey);
-    const sig = signingKey.signDigest(ethSignedHash);
-    signature += joinSignature(sig).slice(2); // remove initial '0x'
   }
 
   return signature;
@@ -110,7 +112,6 @@ const signWithHw = async (hash: string, hwType: string): Promise<string> => {
       const trezorSigner = new TrezorSigner(provider);
       const signer = await trezorSigner.getAddress();
       console.log("- Signing with", signer);
-
       return await trezorSigner.signMessage(hash);
     } catch (e) {
       console.error("- Could not sign with Trezor", e);
@@ -123,7 +124,6 @@ const signWithHw = async (hash: string, hwType: string): Promise<string> => {
       const ledger = new LedgerSigner(HIDTransport, provider);
       const signer = await ledger.getAddress();
       console.log("- Signing with", signer);
-
       return await ledger.signMessage(hash);
     } catch (e) {
       console.error("- Could not sign with Ledger", e);
