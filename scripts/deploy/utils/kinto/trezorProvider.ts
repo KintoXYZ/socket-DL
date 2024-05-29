@@ -105,6 +105,7 @@ class TrezorSigner extends Signer {
           console.log(
             "\nATTENTION: No devices connected. Open Trezor Suite, connect your device and unlock your account."
           );
+          console.log("If you want to use another account index, set the ACCOUNT_INDEX env variable.");
         }
       }
 
@@ -120,7 +121,7 @@ class TrezorSigner extends Signer {
 
   async getAddress(): Promise<string> {
     const response = await TrezorConnect.ethereumGetAddress({
-      path: "m/44'/60'/0'/0/0",
+      path: `m/44'/60'/0'/0/${process.env.ACCOUNT_INDEX || '0'}`,
       showOnTrezor: false,
     });
 
@@ -135,7 +136,7 @@ class TrezorSigner extends Signer {
 
   async signMessage(message: string): Promise<string> {
     const response = await TrezorConnect.ethereumSignMessage({
-      path: "m/44'/60'/0'/0/0",
+      path: `m/44'/60'/0'/0/${process.env.ACCOUNT_INDEX || '0'}`,
       message: ethers.utils.hexlify(ethers.utils.toUtf8Bytes(message)),
     });
 
@@ -156,7 +157,7 @@ class TrezorSigner extends Signer {
     const tx = await ethers.utils.resolveProperties(transaction);
 
     const response = await TrezorConnect.ethereumSignTransaction({
-      path: "m/44'/60'/0'/0/0",
+      path: `m/44'/60'/0'/0/${process.env.ACCOUNT_INDEX || '0'}`,
       transaction: {
         to: tx.to!,
         value: ethers.utils.hexlify(tx.value!),
