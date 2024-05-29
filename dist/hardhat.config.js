@@ -82,6 +82,7 @@ if (isProduction) {
 }
 const config = {
     defaultNetwork: "hardhat",
+    // @ts-ignore
     abiExporter: {
         path: "artifacts/abi",
         flat: true,
