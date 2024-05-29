@@ -20,10 +20,8 @@
     "@arbitrum/sdk": "^3.1.13",
     "@aws-sdk/client-s3": "^3.465.0",
     "@eth-optimism/sdk": "^3.2.0",
-    "@ethers-ext/signer-ledger": "^6.0.0-beta.1",
     "@ethersproject/bytes": "^5.7.0",
     "@fxportal/maticjs-fxportal": "^1.1.1",
-    "@ledgerhq/hw-transport-node-hid": "^6.28.6",
     "@maticnetwork/maticjs": "^3.5.0",
     "@maticnetwork/maticjs-ethers": "^1.0.2",
     "@nomiclabs/hardhat-ethers": "^2.1.1",
@@ -31,7 +29,6 @@
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@socket.tech/dl-common": "^1.0.3-test.37",
     "@socket.tech/dl-core": "2.4.37",
-    "@trezor/connect": "^9.2.2",
     "@typechain/ethers-v5": "^10.0.0",
     "@typechain/hardhat": "^6.0.0",
     "@types/chai": "^4.3.0",
@@ -43,7 +40,6 @@
     "defender-relay-client": "^1.31.1",
     "dotenv": "^16.0.3",
     "ethereum-waffle": "^3.2.0",
-    "ethers": "^5.6.6",
     "hardhat": "^2.9.5",
     "hardhat-abi-exporter": "^2.10.1",
     "hardhat-change-network": "^0.0.7",
@@ -52,7 +48,6 @@
     "pre-commit": "^1.2.2",
     "prettier": "^2.3.1",
     "prettier-plugin-solidity": "^1.0.0-beta.13",
-    "prompt-sync": "^4.2.0",
     "ts-node": "^10.7.0",
     "typechain": "^8.0.0",
     "typescript": "^4.6.4"
@@ -73,6 +68,11 @@
     "axios": "^1.3.6",
     "prompts": "^2.4.2",
     "readline-sync": "^1.4.10",
-    "yargs": "^17.7.1"
+    "yargs": "^17.7.1",
+    "@trezor/connect": "^9.2.2",
+    "prompt-sync": "^4.2.0",
+    "ethers": "^5.6.6",
+    "@ethers-ext/signer-ledger": "^6.0.0-beta.1",
+    "@ledgerhq/hw-transport-node-hid": "^6.28.6"
   }
 }

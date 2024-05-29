@@ -8,7 +8,7 @@ import {
   joinSignature,
 } from "ethers/lib/utils";
 import { Address } from "hardhat-deploy/dist/types";
-import { KINTO_DATA } from "./constants.json";
+import { LEDGER, TREZOR, KINTO_DATA } from "./constants.json";
 import TrezorSigner from "./trezorProvider";
 import { LedgerSigner } from "@ethers-ext/signer-ledger";
 import HIDTransport from "@ledgerhq/hw-transport-node-hid";
@@ -89,20 +89,22 @@ const signUserOp = async (
 
   let signature = "0x";
   for (const privateKey of privateKeys) {
+    if (privateKey == TREZOR || privateKey == LEDGER) {
+      // sign with hardware wallet if available
+      const hwSignature = await signWithHw(hash, privateKey);
+      signature += (hwSignature as string).slice(2);
+    }
     const signingKey = new SigningKey(privateKey);
     const sig = signingKey.signDigest(ethSignedHash);
     signature += joinSignature(sig).slice(2); // remove initial '0x'
   }
 
-  // sign with hardware wallet if available
-  const hwSignature = await signWithHw(hash, process.env.HW_TYPE);
-  signature += (hwSignature as string).slice(2);
   return signature;
 };
 
 const signWithHw = async (hash: string, hwType: string): Promise<string> => {
   const provider = getKintoProvider();
-  if (hwType === "TREZOR") {
+  if (hwType === TREZOR) {
     try {
       console.log("\nUsing Trezor as second signer...");
       const trezorSigner = new TrezorSigner(provider);
@@ -114,7 +116,7 @@ const signWithHw = async (hash: string, hwType: string): Promise<string> => {
       console.error("- Could not sign with Trezor", e);
     }
   }
-  if (hwType === "LEDGER") {
+  if (hwType === LEDGER) {
     try {
       console.log("\nUsing Ledger as second signer...");
       // @ts-ignore
@@ -127,7 +129,9 @@ const signWithHw = async (hash: string, hwType: string): Promise<string> => {
       console.error("- Could not sign with Ledger", e);
     }
   }
-  console.log("\nWARNING: No hardware wallet detected. To use one, set HW_TYPE env variable to LEDGER or TREZOR.");
+  console.log(
+    "\nWARNING: No hardware wallet detected. To use one, set HW_TYPE env variable to LEDGER or TREZOR."
+  );
 };
 
 const sign = async (privateKey: Address, chainId: number): Promise<string> => {

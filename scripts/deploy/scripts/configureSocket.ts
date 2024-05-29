@@ -21,6 +21,7 @@ import {
   msgValueMaxThreshold,
 } from "../config";
 import { handleOps, isKinto } from "../utils/kinto/kinto";
+import { LEDGER } from "../utils/kinto/constants.json";
 
 export const registerSwitchboards = async (
   chain: ChainSlug,
@@ -79,7 +80,7 @@ export const setManagers = async (
       tx = await handleOps(
         process.env.SOCKET_OWNER_ADDRESS,
         [txRequest],
-        process.env.SOCKET_SIGNER_KEY
+        [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
       );
     } else {
       tx = await (await socket.signer.sendTransaction(txRequest)).wait();
@@ -100,7 +101,7 @@ export const setManagers = async (
       tx = await handleOps(
         process.env.SOCKET_OWNER_ADDRESS,
         [txRequest],
-        process.env.SOCKET_SIGNER_KEY
+        [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
       );
     } else {
       tx = await (await socket.signer.sendTransaction(txRequest)).wait();
@@ -188,7 +189,7 @@ export const configureExecutionManager = async (
       tx = await handleOps(
         process.env.SOCKET_OWNER_ADDRESS,
         [txRequest],
-        process.env.SOCKET_SIGNER_KEY
+        [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
       );
     } else {
       tx = await (
@@ -264,7 +265,7 @@ export const setupPolygonNativeSwitchboard = async (addresses) => {
               tx = await handleOps(
                 process.env.SOCKET_OWNER_ADDRESS,
                 [txRequest],
-                process.env.SOCKET_SIGNER_KEY
+                [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
               );
             } else {
               tx = await (
@@ -298,7 +299,7 @@ export const setupPolygonNativeSwitchboard = async (addresses) => {
               tx = await handleOps(
                 process.env.SOCKET_OWNER_ADDRESS,
                 [txRequest],
-                process.env.SOCKET_SIGNER_KEY
+                [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
               );
             } else {
               tx = await (

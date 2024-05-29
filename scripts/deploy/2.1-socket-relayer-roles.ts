@@ -47,11 +47,10 @@ const main = async () => {
       filterRoles: [ROLES.SOCKET_RELAYER_ROLE],
     }));
     console.log(`\nWhitelisting ${contract} @ ${addresses[contract]}...`);
-    await whitelistApp(
-      process.env.SOCKET_OWNER_ADDRESS,
-      addresses[contract],
-      process.env.SOCKET_SIGNER_KEY
-    );
+    await whitelistApp(process.env.SOCKET_OWNER_ADDRESS, addresses[contract], [
+      `0x${process.env.SOCKET_SIGNER_KEY}`,
+      constants.LEDGER,
+    ]);
 
     const instance = (
       await getInstance(
@@ -86,7 +85,7 @@ const main = async () => {
       const registerTx = await handleOps(
         process.env.SOCKET_OWNER_ADDRESS,
         [txRequest],
-        process.env.SOCKET_SIGNER_KEY
+        [`0x${process.env.SOCKET_SIGNER_KEY}`, constants.LEDGER]
       );
       console.log(
         `- Successfully granted ${role.filterRoles} to ${role.userAddress} on contract ${contract}. Transaction hash: ${registerTx.transactionHash}`
@@ -118,7 +117,7 @@ const main = async () => {
     const registerTx = await handleOps(
       process.env.SOCKET_OWNER_ADDRESS,
       [txRequest],
-      process.env.SOCKET_SIGNER_KEY
+      [`0x${process.env.SOCKET_SIGNER_KEY}`, constants.LEDGER]
     );
     console.log(
       `Successfully added ${relayer} to the allowlist of SocketBatcher. Transaction hash: ${registerTx.transactionHash}`

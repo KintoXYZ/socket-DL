@@ -9,7 +9,6 @@ import TrezorConnect, {
   UI_RESPONSE,
 } from "@trezor/connect";
 import createPrompt from "prompt-sync";
-import { Device } from "@trezor/connect/lib/device/Device";
 
 class TrezorSigner extends Signer {
   public provider: ethers.providers.Provider;
@@ -59,7 +58,9 @@ class TrezorSigner extends Signer {
         // FIXME: not sure what's the positions of the PIN on the screen, grid is 3x3 and the positions are 1-9
         // 1st position is top left, 9th position is bottom right
         const prompt = createPrompt({});
-        const positions = prompt.hide("Enter your the positions of your PIN number:");
+        const positions = prompt.hide(
+          "Enter your the positions of your PIN number:"
+        );
         TrezorConnect.uiResponse({ type: UI.RECEIVE_PIN, payload: positions });
       }
 

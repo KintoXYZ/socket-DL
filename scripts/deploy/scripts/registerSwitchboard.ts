@@ -5,6 +5,7 @@ import { createObj, getInstance } from "../utils";
 import { ChainSlug, ChainSocketAddresses } from "../../../src";
 import { initialPacketCount, overrides } from "../config";
 import { handleOps, isKinto } from "../utils/kinto/kinto";
+import { LEDGER } from "../utils/kinto/constants.json";
 
 export default async function registerSwitchboardForSibling(
   switchBoardAddress: string,
@@ -49,7 +50,7 @@ export default async function registerSwitchboardForSibling(
         registerTx = await handleOps(
           process.env.SOCKET_OWNER_ADDRESS,
           [txRequest],
-          process.env.SOCKET_SIGNER_KEY
+          [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
         );
       } else {
         registerTx = await (

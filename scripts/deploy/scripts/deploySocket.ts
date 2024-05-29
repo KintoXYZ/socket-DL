@@ -18,6 +18,7 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { socketOwner, executionManagerVersion, overrides } from "../config";
 import { maxAllowedPacketLength } from "../../constants";
 import { handleOps, isKinto } from "../utils/kinto/kinto";
+import { LEDGER } from "../utils/kinto/constants.json";
 
 let allDeployed = false;
 
@@ -192,7 +193,7 @@ export const deploySocket = async (
         tx = await handleOps(
           process.env.SOCKET_OWNER_ADDRESS,
           [txRequest],
-          process.env.SOCKET_SIGNER_KEY
+          [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
         );
       } else {
         tx = await (

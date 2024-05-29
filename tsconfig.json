@@ -7,7 +7,7 @@
     "outDir": "dist",
     "declaration": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
   "include": [
     "./hardhat.config.ts",

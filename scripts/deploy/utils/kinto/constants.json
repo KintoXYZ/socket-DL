@@ -51,5 +51,7 @@
       "verificationGasLimit": 210000,
       "preVerificationGas": 21000
     }
-  }
+  },
+  "TREZOR": "0",
+  "LEDGER": "1"
 }
