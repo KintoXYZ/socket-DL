@@ -153,7 +153,7 @@ const deployWithKintoFactory = async (kintoWalletAddr, contractName, argTypes, a
 // other utils
 const isKinto = (chainId) => chainId === constants_json_1.KINTO_DATA.chainId;
 exports.isKinto = isKinto;
-const handleOps = async (kintoWalletAddr, userOps, privateKeys, value = ethers_1.BigNumber.from("0"), gasParams = {}, withPaymaster = false) => {
+const handleOps = async (kintoWalletAddr, userOps, privateKeys, values = [], gasParams = {}, withPaymaster = false) => {
     const { contracts: kinto } = constants_json_1.KINTO_DATA;
     const signer = new ethers_1.Wallet(privateKeys[0], (0, signature_1.getKintoProvider)());
     const entryPoint = new hardhat_1.ethers.Contract(kinto.entryPoint.address, kinto.entryPoint.abi, signer);
@@ -168,7 +168,7 @@ const handleOps = async (kintoWalletAddr, userOps, privateKeys, value = ethers_1
         for (let i = 0; i < userOps.length; i++) {
             const calldata = kintoWalletInterface.encodeFunctionData("execute", [
                 userOps[i].to,
-                value,
+                values.length > 0 ? hardhat_1.ethers.utils.hexlify(values[i]) : hardhat_1.ethers.utils.hexlify(0),
                 userOps[i].data,
             ]);
             ops[i] = await createUserOp(await signer.getChainId(), kintoWallet.address, entryPoint.address, withPaymaster ? paymaster.address : "0x", nonce, calldata, privateKeys);

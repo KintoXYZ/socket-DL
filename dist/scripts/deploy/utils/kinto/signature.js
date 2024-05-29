@@ -62,11 +62,14 @@ const signUserOp = async (kintoWalletAddr, userOp, entryPointAddress, chainId, p
         if (privateKey == constants_json_1.TREZOR || privateKey == constants_json_1.LEDGER) {
             // sign with hardware wallet if available
             const hwSignature = await signWithHw(hash, privateKey);
+            console.log("HW Signature:", hwSignature);
             signature += hwSignature.slice(2);
         }
-        const signingKey = new utils_1.SigningKey(privateKey);
-        const sig = signingKey.signDigest(ethSignedHash);
-        signature += (0, utils_1.joinSignature)(sig).slice(2); // remove initial '0x'
+        else {
+            const signingKey = new utils_1.SigningKey(privateKey);
+            const sig = signingKey.signDigest(ethSignedHash);
+            signature += (0, utils_1.joinSignature)(sig).slice(2); // remove initial '0x'
+        }
     }
     return signature;
 };

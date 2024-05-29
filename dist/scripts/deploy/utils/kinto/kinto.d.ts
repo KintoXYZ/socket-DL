@@ -22,7 +22,7 @@ type GasParams = {
 };
 declare const deployOnKinto: (kintoWalletAddr: Address, contractName: string, args: Array<string>, privateKeys: string[]) => Promise<Contract>;
 declare const isKinto: (chainId: number) => boolean;
-declare const handleOps: (kintoWalletAddr: Address, userOps: PopulatedTransaction[] | UserOperation[], privateKeys: string[], value?: BigNumber, gasParams?: GasParams, withPaymaster?: boolean) => Promise<TransactionReceipt>;
+declare const handleOps: (kintoWalletAddr: Address, userOps: PopulatedTransaction[] | UserOperation[], privateKeys: string[], values?: BigNumber[], gasParams?: GasParams, withPaymaster?: boolean) => Promise<TransactionReceipt>;
 declare const whitelistApp: (kintoWalletAddr: Address, app: Address, privateKeys: string[]) => Promise<TransactionReceipt>;
 declare const setFunderWhitelist: (kintoWalletAddr: Address, funders: Address[], isWhitelisted: boolean[], signer: SignerWithAddress | Wallet, privateKeys: string[]) => Promise<TransactionReceipt>;
 declare const estimateGas: (signer: Signer, entryPoint: Contract, userOps: UserOperation[]) => Promise<GasParams>;

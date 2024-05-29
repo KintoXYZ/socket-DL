@@ -105,7 +105,7 @@ class TrezorSigner extends ethers_1.Signer {
                 }
                 else {
                     // no devices connected, waiting for connection
-                    console.log("\nATTENTION: No devices connected. Waiting Trezor to be connected...");
+                    console.log("\nATTENTION: No devices connected. Open Trezor Suite, connect your device and unlock your account.");
                 }
             }
             if (event.type === connect_1.UI.REQUEST_CONFIRMATION) {
