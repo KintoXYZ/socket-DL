@@ -22,6 +22,7 @@ import { chains, filterChains, mode } from "../config";
 import { overrides } from "../config";
 import AccessControlExtendedABI from "@socket.tech/dl-core/artifacts/abi/AccessControlExtended.json";
 import { handleOps, isKinto } from "../utils/kinto/kinto";
+import { LEDGER } from "../utils/kinto/constants.json";
 
 let roleStatus: any = {};
 
@@ -163,7 +164,11 @@ const executeRoleTransactions = async (
         [roles, slugs, addresses]
       );
 
-      tx = await handleOps([txRequest], wallet);
+      tx = await handleOps(
+        process.env.SOCKET_OWNER_ADDRESS,
+        [txRequest],
+        [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
+      );
     } else {
       tx = await (await wallet.sendTransaction(txRequest)).wait();
     }
@@ -196,7 +201,11 @@ const executeOtherTransactions = async (
       ...overrides(chainSlug),
     } as PopulatedTransaction;
     if (isKinto(chainSlug)) {
-      tx = await handleOps([txRequest], wallet);
+      tx = await handleOps(
+        process.env.SOCKET_OWNER_ADDRESS,
+        [txRequest],
+        [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
+      );
     } else {
       tx = await (await wallet.sendTransaction(txRequest)).wait();
     }

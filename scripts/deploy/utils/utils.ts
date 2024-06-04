@@ -14,6 +14,7 @@ import {
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { overrides } from "../config";
 import { isKinto, deployOnKinto } from "./kinto/kinto";
+import constants from "./kinto/constants.json";
 
 export const deploymentsPath = path.join(__dirname, `/../../../deployments/`);
 
@@ -85,7 +86,12 @@ export async function deployContractWithArgs(
   try {
     let contract: Contract;
     if (isKinto(await signer.getChainId())) {
-      contract = await deployOnKinto(contractName, args, signer);
+      contract = await deployOnKinto(
+        process.env.SOCKET_OWNER_ADDRESS,
+        contractName,
+        args,
+        [`0x${process.env.SOCKET_SIGNER_KEY}`, constants.LEDGER]
+      );
     } else {
       const Contract: ContractFactory = await ethers.getContractFactory(
         contractName

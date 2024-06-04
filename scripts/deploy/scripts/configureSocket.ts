@@ -21,6 +21,7 @@ import {
   msgValueMaxThreshold,
 } from "../config";
 import { handleOps, isKinto } from "../utils/kinto/kinto";
+import { LEDGER } from "../utils/kinto/constants.json";
 
 export const registerSwitchboards = async (
   chain: ChainSlug,
@@ -76,7 +77,11 @@ export const setManagers = async (
     );
 
     if (isKinto(await socketSigner.getChainId())) {
-      tx = await handleOps([txRequest], socket.signer);
+      tx = await handleOps(
+        process.env.SOCKET_OWNER_ADDRESS,
+        [txRequest],
+        [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
+      );
     } else {
       tx = await (await socket.signer.sendTransaction(txRequest)).wait();
     }
@@ -93,7 +98,11 @@ export const setManagers = async (
     );
 
     if (isKinto(await socketSigner.getChainId())) {
-      tx = await handleOps([txRequest], socket.signer);
+      tx = await handleOps(
+        process.env.SOCKET_OWNER_ADDRESS,
+        [txRequest],
+        [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
+      );
     } else {
       tx = await (await socket.signer.sendTransaction(txRequest)).wait();
     }
@@ -177,7 +186,11 @@ export const configureExecutionManager = async (
       );
 
     if (isKinto(chain)) {
-      tx = await handleOps([txRequest], socketBatcherContract.signer);
+      tx = await handleOps(
+        process.env.SOCKET_OWNER_ADDRESS,
+        [txRequest],
+        [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
+      );
     } else {
       tx = await (
         await socketBatcherContract.signer.sendTransaction(txRequest)
@@ -249,7 +262,11 @@ export const setupPolygonNativeSwitchboard = async (addresses) => {
               );
 
             if (isKinto(await socketSigner.getChainId())) {
-              tx = await handleOps([txRequest], contract.signer);
+              tx = await handleOps(
+                process.env.SOCKET_OWNER_ADDRESS,
+                [txRequest],
+                [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
+              );
             } else {
               tx = await (
                 await contract.signer.sendTransaction(txRequest)
@@ -279,7 +296,11 @@ export const setupPolygonNativeSwitchboard = async (addresses) => {
               );
 
             if (isKinto(await socketSigner.getChainId())) {
-              tx = await handleOps([txRequest], contract.signer);
+              tx = await handleOps(
+                process.env.SOCKET_OWNER_ADDRESS,
+                [txRequest],
+                [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
+              );
             } else {
               tx = await (
                 await contract.signer.sendTransaction(txRequest)

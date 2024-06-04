@@ -18,6 +18,7 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { socketOwner, executionManagerVersion, overrides } from "../config";
 import { maxAllowedPacketLength } from "../../constants";
 import { handleOps, isKinto } from "../utils/kinto/kinto";
+import { LEDGER } from "../utils/kinto/constants.json";
 
 let allDeployed = false;
 
@@ -44,7 +45,7 @@ export const deploySocket = async (
   };
   // @ts-ignore
   if (!isKinto(chainSlug)) socketOwner = socketSigner.address;
-  console.log("Socket owner: ", socketOwner);
+  console.log("Socket owner will be: ", socketOwner);
 
   try {
     const signatureVerifier: Contract = await getOrDeploy(
@@ -189,7 +190,11 @@ export const deploySocket = async (
         }
       );
       if (isKinto(chainSlug)) {
-        tx = await handleOps([txRequest], simulatorContract.signer);
+        tx = await handleOps(
+          process.env.SOCKET_OWNER_ADDRESS,
+          [txRequest],
+          [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
+        );
       } else {
         tx = await (
           await simulatorContract.signer.sendTransaction(txRequest)

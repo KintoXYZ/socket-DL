@@ -18,6 +18,7 @@ import { Contract, Wallet } from "ethers";
 import { getSwitchboardAddress } from "../../src";
 import { overrides } from "./config";
 import { handleOps, isKinto } from "./utils/kinto/kinto";
+import constants from "./utils/kinto/constants.json";
 
 export const main = async () => {
   try {
@@ -96,7 +97,11 @@ export const main = async () => {
           );
 
           if (isKinto(chain)) {
-            tx = await handleOps([txRequest], counter.signer);
+            tx = await handleOps(
+              process.env.SOCKET_OWNER_ADDRESS,
+              [txRequest],
+              [`0x${process.env.SOCKET_SIGNER_KEY}`, constants.LEDGER]
+            );
           } else {
             tx = await (await counter.signer.sendTransaction(txRequest)).wait();
           }
