@@ -50,10 +50,7 @@ const signUserOp = async (kintoWalletAddr, userOp, entryPointAddress, chainId, p
     const policy = await kintoWallet.signerPolicy();
     const ownersLength = await kintoWallet.getOwnersCount();
     const requiredSigners = policy == 3 ? ownersLength : policy == 1 ? 1 : ownersLength - 1;
-    const keysLength = ["TREZOR", "LEDGER"].includes(process.env.HW_TYPE)
-        ? privateKeys.length + 1
-        : privateKeys.length + 0;
-    if (keysLength < requiredSigners) {
+    if (privateKeys.length < requiredSigners) {
         console.error(`Not enough private keys provided. Required ${requiredSigners}, got ${privateKeys.length}`);
         return;
     }
@@ -62,12 +59,14 @@ const signUserOp = async (kintoWalletAddr, userOp, entryPointAddress, chainId, p
         if (privateKey == constants_json_1.TREZOR || privateKey == constants_json_1.LEDGER) {
             // sign with hardware wallet if available
             const hwSignature = await signWithHw(hash, privateKey);
-            console.log("HW Signature:", hwSignature);
-            signature += hwSignature.slice(2);
+            console.log("- HW signature:", hwSignature);
+            signature += hwSignature;
         }
         else {
             const signingKey = new utils_1.SigningKey(privateKey);
+            console.log(`\nSigning message: ${ethSignedHash} with signer: ${await new hardhat_1.ethers.Wallet(privateKey).getAddress()}...`);
             const sig = signingKey.signDigest(ethSignedHash);
+            console.log("- EOA signature:", sig.compact);
             signature += (0, utils_1.joinSignature)(sig).slice(2); // remove initial '0x'
         }
     }
@@ -76,32 +75,30 @@ const signUserOp = async (kintoWalletAddr, userOp, entryPointAddress, chainId, p
 exports.signUserOp = signUserOp;
 const signWithHw = async (hash, hwType) => {
     const provider = getKintoProvider();
-    if (hwType === constants_json_1.TREZOR) {
-        try {
-            console.log("\nUsing Trezor as second signer...");
-            const trezorSigner = new trezorProvider_1.default(provider);
-            const signer = await trezorSigner.getAddress();
-            console.log("- Signing with", signer);
-            return await trezorSigner.signMessage(hash);
-        }
-        catch (e) {
-            console.error("- Could not sign with Trezor", e);
-        }
-    }
-    if (hwType === constants_json_1.LEDGER) {
-        try {
-            console.log("\nUsing Ledger as second signer...");
+    const deviceName = hwType === constants_json_1.TREZOR ? "Trezor" : "Ledger";
+    try {
+        console.log(`\nUsing ${deviceName} as second signer...`);
+        if (hwType === constants_json_1.LEDGER) {
             // @ts-ignore
             const ledger = new signer_ledger_1.LedgerSigner(hw_transport_node_hid_1.default, provider);
             const signer = await ledger.getAddress();
-            console.log("- Signing with", signer);
+            console.log(`\nSigning message: ${hash} with signer: ${signer}...`);
+            console.log("If you want to use another account index, set the ACCOUNT_INDEX env variable.");
             return await ledger.signMessage(hash);
         }
-        catch (e) {
-            console.error("- Could not sign with Ledger", e);
+        if (hwType === constants_json_1.TREZOR) {
+            const trezorSigner = new trezorProvider_1.default(provider);
+            const signer = await trezorSigner.getAddress();
+            console.log(`\nSigning message: ${hash} with signer: ${signer}...`);
+            console.log("If you want to use another account index, set the ACCOUNT_INDEX env variable.");
+            return await trezorSigner.signMessage(hash);
         }
     }
-    console.log("\nWARNING: No hardware wallet detected. To use one, set HW_TYPE env variable to LEDGER or TREZOR.");
+    catch (e) {
+        console.error(`\nError: Could not sign with ${deviceName}.`);
+        throw new Error(e.message);
+    }
+    console.log("\nWARNING: No hardware wallet detected.");
 };
 const sign = async (privateKey, chainId) => {
     const wallet = new hardhat_1.ethers.Wallet(privateKey, getKintoProvider());

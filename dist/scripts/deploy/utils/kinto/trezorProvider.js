@@ -40,7 +40,7 @@ class TrezorSigner extends ethers_1.Signer {
                 email: "support@kinto.xyz",
                 appUrl: "kinto.xyz",
             },
-            // transports: ['BridgeTransport'],
+            transports: ["BridgeTransport"],
         })
             .then(() => {
             // console.log("Trezor is ready!");
@@ -63,21 +63,20 @@ class TrezorSigner extends ethers_1.Signer {
                 // or app refreshed during call and trezor-bridge didn't managed to release the session
                 // render "Acquire device" button and after click try to fetch device features using:
                 // TrezorConnect.getFeatures();
-                console.log("Connected device is unknown or busy...");
+                // console.error("Connected device is unknown or busy. Try again.");
+                throw new Error("Connected device is unknown or busy. Try again.");
             }
         });
         connect_1.default.on(connect_1.UI_EVENT, (event) => {
             if (event.type === connect_1.UI.REQUEST_PIN) {
-                // FIXME: not sure what's the positions of the PIN on the screen, grid is 3x3 and the positions are 1-9
-                // 1st position is top left, 9th position is bottom right
                 const prompt = (0, prompt_sync_1.default)({});
-                const positions = prompt.hide("Enter your the positions of your PIN number:");
+                const positions = prompt.hide("Enter your the *positions* of your PIN number (1-9): (1st position is bottom left, 9th position is top right):");
                 connect_1.default.uiResponse({ type: connect_1.UI.RECEIVE_PIN, payload: positions });
             }
             if (event.type === connect_1.UI.REQUEST_PASSPHRASE) {
                 if (event.payload.device.features.capabilities.includes("Capability_PassphraseEntry")) {
                     const prompt = (0, prompt_sync_1.default)({});
-                    const passphrase = prompt.hide("Enter your passphrase: (empty for default)");
+                    const passphrase = prompt.hide("Enter your passphrase:");
                     connect_1.default.uiResponse({
                         type: connect_1.UI.RECEIVE_PASSPHRASE,
                         payload: { passphraseOnDevice: true, value: passphrase },
@@ -85,7 +84,7 @@ class TrezorSigner extends ethers_1.Signer {
                 }
                 else {
                     const prompt = (0, prompt_sync_1.default)({});
-                    const passphrase = prompt.hide("Enter your passphrase: (empty for default)");
+                    const passphrase = prompt.hide("Enter your passphrase:");
                     connect_1.default.uiResponse({
                         type: connect_1.UI.RECEIVE_PASSPHRASE,
                         payload: { value: passphrase, save: true },
@@ -94,19 +93,21 @@ class TrezorSigner extends ethers_1.Signer {
             }
             if (event.type === connect_1.UI.SELECT_DEVICE) {
                 if (event.payload.devices.length > 0) {
+                    if (event.payload.devices[0].type === "unacquired") {
+                        // console.error("Device is unacquired.");
+                    }
                     // more then one device connected
                     // example how to respond to select device
-                    connect_1.default.uiResponse({
-                        type: connect_1.UI_RESPONSE.RECEIVE_DEVICE,
-                        payload: {
-                            device: event.payload.devices[0],
-                        },
-                    });
+                    // TrezorConnect.uiResponse({
+                    //   type: UI_RESPONSE.RECEIVE_DEVICE,
+                    //   payload: {
+                    //     device: event.payload.devices[0],
+                    //   },
+                    // });
                 }
                 else {
                     // no devices connected, waiting for connection
-                    console.log("\nATTENTION: No devices connected. Open Trezor Suite, connect your device and unlock your account.");
-                    console.log("If you want to use another account index, set the ACCOUNT_INDEX env variable.");
+                    console.log("\nATTENTION: No devices connected... Ensure your Trezor is connected.");
                 }
             }
             if (event.type === connect_1.UI.REQUEST_CONFIRMATION) {
@@ -120,7 +121,7 @@ class TrezorSigner extends ethers_1.Signer {
     }
     async getAddress() {
         const response = await connect_1.default.ethereumGetAddress({
-            path: `m/44'/60'/0'/0/${process.env.ACCOUNT_INDEX || '0'}`,
+            path: `m/44'/60'/0'/0/${process.env.ACCOUNT_INDEX || "0"}`,
             showOnTrezor: false,
         });
         if (response.success) {
@@ -132,8 +133,9 @@ class TrezorSigner extends ethers_1.Signer {
     }
     async signMessage(message) {
         const response = await connect_1.default.ethereumSignMessage({
-            path: `m/44'/60'/0'/0/${process.env.ACCOUNT_INDEX || '0'}`,
-            message: ethers_1.ethers.utils.hexlify(ethers_1.ethers.utils.toUtf8Bytes(message)),
+            path: `m/44'/60'/0'/0/${process.env.ACCOUNT_INDEX || "0"}`,
+            message,
+            hex: true,
         });
         if (response.success) {
             return response.payload.signature;
@@ -145,7 +147,7 @@ class TrezorSigner extends ethers_1.Signer {
     async signTransaction(transaction) {
         const tx = await ethers_1.ethers.utils.resolveProperties(transaction);
         const response = await connect_1.default.ethereumSignTransaction({
-            path: `m/44'/60'/0'/0/${process.env.ACCOUNT_INDEX || '0'}`,
+            path: `m/44'/60'/0'/0/${process.env.ACCOUNT_INDEX || "0"}`,
             transaction: {
                 to: tx.to,
                 value: ethers_1.ethers.utils.hexlify(tx.value),

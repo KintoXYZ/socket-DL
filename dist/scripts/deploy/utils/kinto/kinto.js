@@ -168,7 +168,9 @@ const handleOps = async (kintoWalletAddr, userOps, privateKeys, values = [], gas
         for (let i = 0; i < userOps.length; i++) {
             const calldata = kintoWalletInterface.encodeFunctionData("execute", [
                 userOps[i].to,
-                values.length > 0 ? hardhat_1.ethers.utils.hexlify(values[i]) : hardhat_1.ethers.utils.hexlify(0),
+                values.length > 0
+                    ? hardhat_1.ethers.utils.hexlify(values[i])
+                    : hardhat_1.ethers.utils.hexlify(0),
                 userOps[i].data,
             ]);
             ops[i] = await createUserOp(await signer.getChainId(), kintoWallet.address, entryPoint.address, withPaymaster ? paymaster.address : "0x", nonce, calldata, privateKeys);
@@ -176,13 +178,13 @@ const handleOps = async (kintoWalletAddr, userOps, privateKeys, values = [], gas
         }
         userOps = ops;
     }
-    // gasParams = {
-    //   maxPriorityFeePerGas: parseUnits("1.1", "gwei"),
-    //   maxFeePerGas: parseUnits("1.1", "gwei"),
-    //   gasLimit: BigNumber.from("400000000"),
-    // };
+    gasParams = {
+    // maxPriorityFeePerGas: parseUnits("1.1", "gwei"),
+    // maxFeePerGas: parseUnits("1.1", "gwei"),
+    // gasLimit: BigNumber.from("400000000"),
+    };
     const txResponse = await entryPoint.handleOps(userOps, await signer.getAddress(), {
-        // ...gasParams,
+        ...gasParams,
         type: 1, // non EIP-1559
     });
     const receipt = await txResponse.wait();
