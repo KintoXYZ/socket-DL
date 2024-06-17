@@ -13,8 +13,12 @@ import {
 } from "../../../src";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { overrides } from "../config";
-import { isKinto, deployOnKinto } from "./kinto/kinto";
-import constants from "./kinto/constants.json";
+import {
+  deployOnKinto,
+  isKinto,
+  extractArgTypes,
+} from "@kinto-utils/dist/kinto";
+import { LEDGER } from "@kinto-utils/dist/utils/constants";
 
 export const deploymentsPath = path.join(__dirname, `/../../../deployments/`);
 
@@ -84,14 +88,23 @@ export async function deployContractWithArgs(
   signer: SignerWithAddress | Wallet
 ) {
   try {
+    const Contract: ContractFactory = await ethers.getContractFactory(
+      contractName
+    );
     let contract: Contract;
     if (isKinto(await signer.getChainId())) {
-      contract = await deployOnKinto(
-        process.env.SOCKET_OWNER_ADDRESS,
-        contractName,
-        args,
-        [`0x${process.env.SOCKET_SIGNER_KEY}`, constants.LEDGER]
+      const abi = JSON.parse(
+        Contract.interface.format(ethers.utils.FormatTypes.json) as string
       );
+      const contractAddr = await deployOnKinto({
+        kintoWalletAddr: process.env.SOCKET_OWNER_ADDRESS,
+        bytecode: Contract.bytecode,
+        abi,
+        args,
+        argTypes: await extractArgTypes(abi),
+        privateKeys: [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER],
+      });
+      contract = await getInstance(contractName, contractAddr);
     } else {
       const Contract: ContractFactory = await ethers.getContractFactory(
         contractName

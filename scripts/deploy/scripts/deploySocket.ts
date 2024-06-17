@@ -17,8 +17,8 @@ import deploySwitchboards from "./deploySwitchboard";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { socketOwner, executionManagerVersion, overrides } from "../config";
 import { maxAllowedPacketLength } from "../../constants";
-import { handleOps, isKinto } from "../utils/kinto/kinto";
-import { LEDGER } from "../utils/kinto/constants.json";
+import { handleOps, isKinto } from "@kinto-utils/dist/kinto";
+import { LEDGER } from "@kinto-utils/dist/utils/constants";
 
 let allDeployed = false;
 

@@ -20,8 +20,8 @@ import {
   overrides,
   msgValueMaxThreshold,
 } from "../config";
-import { handleOps, isKinto } from "../utils/kinto/kinto";
-import { LEDGER } from "../utils/kinto/constants.json";
+import { handleOps, isKinto } from "@kinto-utils/dist/kinto";
+import { LEDGER } from "@kinto-utils/dist/utils/constants";
 
 export const registerSwitchboards = async (
   chain: ChainSlug,
@@ -77,11 +77,11 @@ export const setManagers = async (
     );
 
     if (isKinto(await socketSigner.getChainId())) {
-      tx = await handleOps(
-        process.env.SOCKET_OWNER_ADDRESS,
-        [txRequest],
-        [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
-      );
+      tx = await handleOps({
+        kintoWalletAddr: process.env.SOCKET_OWNER_ADDRESS,
+        userOps: [txRequest],
+        privateKeys: [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER],
+      });
     } else {
       tx = await (await socket.signer.sendTransaction(txRequest)).wait();
     }
@@ -98,11 +98,11 @@ export const setManagers = async (
     );
 
     if (isKinto(await socketSigner.getChainId())) {
-      tx = await handleOps(
-        process.env.SOCKET_OWNER_ADDRESS,
-        [txRequest],
-        [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
-      );
+      tx = await handleOps({
+        kintoWalletAddr: process.env.SOCKET_OWNER_ADDRESS,
+        userOps: [txRequest],
+        privateKeys: [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER],
+      });
     } else {
       tx = await (await socket.signer.sendTransaction(txRequest)).wait();
     }
@@ -186,11 +186,11 @@ export const configureExecutionManager = async (
       );
 
     if (isKinto(chain)) {
-      tx = await handleOps(
-        process.env.SOCKET_OWNER_ADDRESS,
-        [txRequest],
-        [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER]
-      );
+      tx = await handleOps({
+        kintoWalletAddr: process.env.SOCKET_OWNER_ADDRESS,
+        userOps: [txRequest],
+        privateKeys: [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER],
+      });
     } else {
       tx = await (
         await socketBatcherContract.signer.sendTransaction(txRequest)
