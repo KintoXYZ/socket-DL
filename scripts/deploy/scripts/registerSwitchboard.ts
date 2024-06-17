@@ -4,8 +4,8 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { createObj, getInstance } from "../utils";
 import { ChainSlug, ChainSocketAddresses } from "../../../src";
 import { initialPacketCount, overrides } from "../config";
-import { handleOps, isKinto } from "../utils/kinto/kinto";
-import { LEDGER } from "../utils/kinto/constants.json";
+import { handleOps, isKinto } from "@kinto-utils/dist/kinto";
+import { LEDGER } from "@kinto-utils/dist/utils/constants";
 
 export default async function registerSwitchboardForSibling(
   switchBoardAddress: string,

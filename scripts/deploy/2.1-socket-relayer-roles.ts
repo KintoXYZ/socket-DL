@@ -3,9 +3,10 @@ dotenvConfig();
 
 import { ROLES, CORE_CONTRACTS, ChainSlug } from "../../src";
 import { mode, overrides, relayers } from "./config";
-import constants from "./utils/kinto/constants.json";
 import { getAddresses, getInstance, getRoleHash } from "./utils";
-import { handleOps, isKinto, whitelistApp } from "./utils/kinto/kinto";
+import { handleOps, whitelistApp } from "@kinto-utils/dist/kinto";
+import { LEDGER } from "@kinto-utils/dist/utils/constants";
+
 import { Wallet } from "ethers";
 import { getProviderFromChainSlug } from "../constants";
 
@@ -49,7 +50,7 @@ const main = async () => {
     console.log(`\nWhitelisting ${contract} @ ${addresses[contract]}...`);
     await whitelistApp(process.env.SOCKET_OWNER_ADDRESS, addresses[contract], [
       `0x${process.env.SOCKET_SIGNER_KEY}`,
-      constants.LEDGER,
+      LEDGER,
     ]);
 
     const instance = (
@@ -82,11 +83,11 @@ const main = async () => {
         }
       );
 
-      const registerTx = await handleOps(
-        process.env.SOCKET_OWNER_ADDRESS,
-        [txRequest],
-        [`0x${process.env.SOCKET_SIGNER_KEY}`, constants.LEDGER]
-      );
+      const registerTx = await handleOps({
+        kintoWalletAddr: process.env.SOCKET_OWNER_ADDRESS,
+        userOps: [txRequest],
+        privateKeys: [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER],
+      });
       console.log(
         `- Successfully granted ${role.filterRoles} to ${role.userAddress} on contract ${contract}. Transaction hash: ${registerTx.transactionHash}`
       );
@@ -114,11 +115,11 @@ const main = async () => {
         ...overrides(await wallet.getChainId()),
       }
     );
-    const registerTx = await handleOps(
-      process.env.SOCKET_OWNER_ADDRESS,
-      [txRequest],
-      [`0x${process.env.SOCKET_SIGNER_KEY}`, constants.LEDGER]
-    );
+    const registerTx = await handleOps({
+      kintoWalletAddr: process.env.SOCKET_OWNER_ADDRESS,
+      userOps: [txRequest],
+      privateKeys: [`0x${process.env.SOCKET_SIGNER_KEY}`, LEDGER],
+    });
     console.log(
       `Successfully added ${relayer} to the allowlist of SocketBatcher. Transaction hash: ${registerTx.transactionHash}`
     );
